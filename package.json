@@ -38,11 +38,11 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": [
+    "replacewith*.js": [
       "eslint --fix",
       "git add"
     ],
-    "*.json": [
+    "replacewith*.json": [
       "prettier --write",
       "git add"
     ]
