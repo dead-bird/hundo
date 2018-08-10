@@ -29,7 +29,7 @@ const app = new Clapp.App({
 });
 
 // Load every command in the commands folder
-fs.readdirSync('./lib/commands/').forEach(file => {
+fs.readdirSync('./app/commands/').forEach(file => {
   app.addCommand(require('./commands/' + file));
 });
 
