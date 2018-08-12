@@ -14,17 +14,14 @@ const app = new Clapp.App({
   separator: cfg.separator,
   version: pkg.version,
   onReply: (file, context) => {
-    // Fired when input is needed to be shown to the user.
-
-    // context.msg.reply('\n' + file).then(botResponse => {
-    //   if (cfg.deleteAfterReply.enabled) {
-    //     context.msg.delete(cfg.deleteAfterReply.time).catch(console.error);
-
-    //     botResponse.delete(cfg.deleteAfterReply.time).catch(console.error);
-    //   }
-    // });
-
-    context.msg.channel.send({ file }).catch(console.error);
+    context.msg.channel
+      .send({ file })
+      .then(() => {
+        if (context.msg.guild.me.hasPermission('MANAGE_MESSAGES')) {
+          context.msg.delete().catch(console.error);
+        }
+      })
+      .catch(console.error);
   },
 });
 

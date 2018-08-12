@@ -3,6 +3,8 @@ require('dotenv').config({ path: '.env' });
 // Server invite link:
 // https://discordapp.com/oauth2/authorize?client_id=474240197329158165&scope=bot&permissions=34816
 
+// perm levels 34816 or 43008 to delete triggered message
+
 module.exports = {
   name: 'Hundo',
   prefix: '-',
