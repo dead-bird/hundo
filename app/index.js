@@ -1,17 +1,17 @@
 'use strict';
 
-const fs = require('fs');
 const Clapp = require('./modules/clapp-discord');
-const cfg = require('../config.js');
+require('dotenv').config({ path: '.env' });
 const pkg = require('../package.json');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
+const fs = require('fs');
 
 const app = new Clapp.App({
-  name: cfg.name,
+  name: 'Hundo',
   desc: pkg.description,
-  prefix: cfg.prefix,
-  separator: cfg.separator,
+  prefix: '-',
+  separator: '',
   version: pkg.version,
   onReply: (file, context) => {
     context.msg.channel
@@ -38,6 +38,6 @@ bot.on('message', msg => {
 });
 
 bot
-  .login(cfg.token)
+  .login(process.env.TOKEN)
   .then(() => console.log('💯'))
   .catch(console.error);
