@@ -7,6 +7,10 @@ const pkg = require('../package.json');
 const bot = new Client();
 const fs = require('fs');
 
+const perms = {
+  manage: context => context.msg.guild.me.hasPermission('MANAGE_MESSAGES'),
+};
+
 const app = new Clapp.App({
   name: 'Hundo',
   desc: pkg.description,
@@ -17,11 +21,10 @@ const app = new Clapp.App({
     context.msg.channel
       .send({ file })
       .then(() => {
+        if (perms.manage(context)) context.msg.delete().catch(console.error);
+
         context.msg.channel.stopTyping();
 
-        if (context.msg.guild.me.hasPermission('MANAGE_MESSAGES')) {
-          context.msg.delete().catch(console.error);
-        }
       })
       .catch(console.error);
   },
