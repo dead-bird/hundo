@@ -2,9 +2,9 @@
 
 const Clapp = require('./modules/clapp-discord');
 require('dotenv').config({ path: '.env' });
+const { Client } = require('discord.js');
 const pkg = require('../package.json');
-const Discord = require('discord.js');
-const bot = new Discord.Client();
+const bot = new Client();
 const fs = require('fs');
 
 const app = new Clapp.App({

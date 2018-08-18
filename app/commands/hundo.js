@@ -1,6 +1,6 @@
 const Clapp = require('../modules/clapp-discord');
-const fs = require('pn/fs');
 const convert = require('svg2png');
+const fs = require('pn/fs');
 
 module.exports = new Clapp.Command({
   name: 'hundo',
@@ -48,8 +48,6 @@ function svg(text) {
     string += tag;
   });
 
-  // return template.replace('{{text}}', string).replace('{{width}}', width);
-  // return template.replace('{{text}}', string).replace('{{width}}', width);
   return template
     .replace(/\{\{text\}\}/g, string)
     .replace(/\{\{width\}\}/g, width);
