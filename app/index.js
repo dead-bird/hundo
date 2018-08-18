@@ -25,6 +25,9 @@ const app = new Clapp.App({
 
         context.msg.channel.stopTyping();
 
+        fs.unlink(file, err => {
+          if (err) throw err;
+        });
       })
       .catch(console.error);
   },
