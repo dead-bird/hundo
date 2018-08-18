@@ -9,6 +9,8 @@ module.exports = new Clapp.Command({
     new Promise((resolve, reject) => {
       const file = `./data/${new Date().toJSON()}.png`;
 
+      context.msg.channel.startTyping();
+
       convert(Buffer.from(svg(argv.args.text)))
         .then(buffer => fs.writeFile(file, buffer).then(resolve(file)))
         .catch(err => console.error(err));

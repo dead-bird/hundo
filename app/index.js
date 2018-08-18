@@ -17,6 +17,8 @@ const app = new Clapp.App({
     context.msg.channel
       .send({ file })
       .then(() => {
+        context.msg.channel.stopTyping();
+
         if (context.msg.guild.me.hasPermission('MANAGE_MESSAGES')) {
           context.msg.delete().catch(console.error);
         }
