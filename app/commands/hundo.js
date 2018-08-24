@@ -1,6 +1,5 @@
 const Clapp = require('../modules/clapp-discord');
-const convert = require('svg2png');
-const fs = require('pn/fs');
+const sharp = require('sharp');
 
 module.exports = new Clapp.Command({
   name: 'hundo',
@@ -11,9 +10,11 @@ module.exports = new Clapp.Command({
 
       context.msg.channel.startTyping();
 
-      convert(Buffer.from(svg(argv.args.text)))
-        .then(buffer => fs.writeFile(file, buffer).then(resolve(file)))
-        .catch(err => console.error(err));
+      sharp(Buffer.from(svg(argv.args.text))).toFile(file, err => {
+        if (err) console.log(err);
+
+        resolve(file);
+      });
     }),
   args: [
     {
@@ -40,40 +41,48 @@ function svg(text) {
   let width = -5;
 
   const tags = text.split('').map(t => {
-    width = width + 15;
+    width = width + 20;
 
     return t;
-    // return `<span>${t}</span>`;
   });
 
   tags.forEach(tag => {
     string += tag;
   });
 
+  if (width < 45) width = 45;
+
+  const push = width / 2 - 22.5;
+
   return template
+    .replace(/\{\{push\}\}/g, push)
     .replace(/\{\{text\}\}/g, string)
     .replace(/\{\{width\}\}/g, width);
 }
 
 const template = `<?xml version="1.0"?>
-  <svg xmlns="http://www.w3.org/2000/svg" width="{{width}}" height="40" viewBox="0 0 {{width}} 1">
+  <svg xmlns="http://www.w3.org/2000/svg" width="{{width}}" height="60" viewBox="0 0 {{width}} 1">
   <title>Hundo</title>
   <style>
     #text {
-      font-size: 20px;
+      font-size: 28px;
       font-family: sans-serif;
-      font-weight: 600;
+      font-weight: 800;
       fill: #bb1a34;
       font-style: italic;
     }
+
+    .underr {
+      transform: translate(calc(50% - 22.5px), 5px);
+    }
   </style>
 
-  <g id="hundo" data-name="hundo">
-    <g><text id="text">{{text}}</text></g>
-
-    <g class="under">
-      <path id="path34" d="M13.75,20a2.5,2.5,0,0,1-.88-4.84A103.67,103.67,0,0,1,38.54,10,2.5,2.5,0,0,1,39,15a100.9,100.9,0,0,0-24.33,4.85,2.48,2.48,0,0,1-.88.16" fill="#bb1a34"/>
-      <path id="path38" d="M2.5,12.5a2.5,2.5,0,0,1-.9-4.83C2.28,7.41,18.5,1.26,42.37,0a2.5,2.5,0,0,1,.26,5C19.6,6.21,3.56,12.27,3.4,12.33a2.39,2.39,0,0,1-.9.17" fill="#bb1a34"/>
+  <g id="hundo" transform="rotate(-10)">
+    <text id="text" x="50%" text-anchor="middle">{{text}}</text>
+    
+    <g class="under" transform="translate({{push}},5)">
+      <path id="path34" d="M11.67,15.78a2.5,2.5,0,0,1,0-4.92A103.88,103.88,0,0,1,37.9,10.6a2.51,2.51,0,0,1-.49,5,101,101,0,0,0-24.81.2,2.66,2.66,0,0,1-.89,0" fill="#bb1a34"/>
+      <path id="path38" d="M2,6.3a2.5,2.5,0,0,1,0-4.91c.71-.13,17.8-3.13,41.48.11a2.5,2.5,0,0,1-.68,5C20,3.33,3.11,6.28,2.94,6.3A2.32,2.32,0,0,1,2,6.3" fill="#bb1a34"/>
     </g>
   </g>
 </svg>`;
