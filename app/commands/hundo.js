@@ -36,11 +36,11 @@ module.exports = new Clapp.Command({
 });
 
 function svg(text) {
-  let width = -5;
+  let width = 0;
 
-  text.split('').forEach(() => (width += 12.5));
+  text.split('').forEach(() => (width += 20));
 
-  if (width < 45) width = 45;
+  if (width < 50) width = 50;
 
   return template
     .replace(/\{\{text\}\}/g, text)
