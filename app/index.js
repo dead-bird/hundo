@@ -18,6 +18,14 @@ const app = new Clapp.App({
   separator: '',
   version: pkg.version,
   onReply: (file, context) => {
+    // Handle errors
+    if (!file.includes('.png')) {
+      return context.msg.reply('\n' + file).then(res => {
+        context.msg.delete(10000).catch(console.error);
+        res.delete(10000).catch(console.error);
+      });
+    }
+
     context.msg.channel
       .send({ file })
       .then(() => {
