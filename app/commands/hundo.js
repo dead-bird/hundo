@@ -25,17 +25,14 @@ module.exports = new Clapp.Command({
       type: 'string',
       required: true,
       default: '',
+      validations: [
+        {
+          errorMessage: 'Too many characters!',
+          validate: t => t.split('').length <= 14,
+        },
+      ],
     },
   ],
-  // Flags: [
-  //   {
-  //     name: 'testflag',
-  //     desc: 'A test flag',
-  //     alias: 't',
-  //     type: 'boolean',
-  //     default: false,
-  //   },
-  // ],
 });
 
 function svg(text) {
