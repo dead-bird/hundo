@@ -14,7 +14,7 @@ const perms = {
 const app = new Clapp.App({
   name: 'Hundo',
   desc: pkg.description,
-  prefix: '-',
+  prefix: '-h',
   separator: '',
   version: pkg.version,
   onReply: (file, context) => {
