@@ -59,6 +59,10 @@ bot.on('ready', () => {
   console.log('💯');
 
   bot.user.setActivity('💯', { type: 'Playing' });
+
+  setInterval(() => {
+    api.postStats(bot.guilds.size, bot.shards.Id, bot.shards.total);
+  }, 1800000);
 });
 
 api.on('error', e => error.log(`discordbots API error: ${e}`));
