@@ -53,7 +53,10 @@ bot.on('message', msg => {
   }
 });
 
-bot
-  .login(process.env.TOKEN)
-  .then(() => console.log('💯'))
-  .catch(console.error);
+bot.on('ready', () => {
+  console.log('💯');
+
+  bot.user.setActivity('💯', { type: 'Playing' });
+});
+
+bot.login(process.env.TOKEN).catch(console.error);
