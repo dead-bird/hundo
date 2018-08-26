@@ -3,7 +3,7 @@ const sharp = require('sharp');
 const cooldown = new Set();
 
 module.exports = new Clapp.Command({
-  name: 'hundo',
+  name: 'undo',
   desc: '💯ify your text',
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
