@@ -1,5 +1,6 @@
 const Clapp = require('../modules/clapp-discord');
 const sharp = require('sharp');
+const cooldown = new Set();
 
 module.exports = new Clapp.Command({
   name: 'hundo',
@@ -7,13 +8,20 @@ module.exports = new Clapp.Command({
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
       const file = `./data/${new Date().toJSON()}.png`;
+      const id = context.msg.author.id;
+
+      if (cooldown.has(id)) return resolve('Woah, just take it easy man.');
 
       context.msg.channel.startTyping();
+
+      // Add to cooldown for 5 seconds
+      cooldown.add(id);
+      setTimeout(() => cooldown.delete(id), 5000);
 
       // console.log(svg(argv.args.text));
 
       sharp(Buffer.from(svg(argv.args.text))).toFile(file, err => {
-        if (err) console.log(err);
+        if (err) console.error(err);
 
         resolve(file);
       });
