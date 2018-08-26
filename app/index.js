@@ -4,8 +4,10 @@ const Clapp = require('./modules/clapp-discord');
 require('dotenv').config({ path: '.env' });
 const { Client } = require('discord.js');
 const pkg = require('../package.json');
-const bot = new Client();
+const API = require('dblapi.js');
 const fs = require('fs');
+const bot = new Client();
+const api = new API(process.env.API, bot);
 
 const perms = {
   manage: context => context.msg.guild.me.hasPermission('MANAGE_MESSAGES'),
@@ -57,6 +59,12 @@ bot.on('ready', () => {
   console.log('💯');
 
   bot.user.setActivity('💯', { type: 'Playing' });
+
+  setInterval(() => {
+    api.postStats(bot.guilds.size, bot.shards.Id, bot.shards.total);
+  }, 1800000);
 });
+
+api.on('error', e => error.log(`discordbots API error: ${e}`));
 
 bot.login(process.env.TOKEN).catch(console.error);
