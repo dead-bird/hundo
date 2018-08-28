@@ -1,5 +1,7 @@
 const Clapp = require('../modules/clapp-discord');
+require('dotenv').config({ path: '.env' });
 const sharp = require('sharp');
+const axios = require('axios');
 const cooldown = new Set();
 
 module.exports = new Clapp.Command({
@@ -14,16 +16,25 @@ module.exports = new Clapp.Command({
 
       context.msg.channel.startTyping();
 
-      // Add to cooldown for 5 seconds
+      // Add to cooldown for 2.5 seconds
       cooldown.add(id);
-      setTimeout(() => cooldown.delete(id), 5000);
+      setTimeout(() => cooldown.delete(id), 2500);
 
-      console.log(svg(argv.args.text));
+      // console.log(svg(argv.args.text));
 
       sharp(Buffer.from(svg(argv.args.text))).toFile(file, err => {
         if (err) {
           context.msg.channel.stopTyping();
           return console.error(err);
+        }
+
+        if (process.env.ENV === 'live') {
+          axios
+            .post('api.hundo.online', {
+              token: process.env.LW,
+              words: argv.args.text,
+            })
+            .catch(e => console.error(e));
         }
 
         resolve(file);
