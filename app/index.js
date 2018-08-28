@@ -20,6 +20,8 @@ const app = new Clapp.App({
   separator: '',
   version: pkg.version,
   onReply: (file, context) => {
+    context.msg.channel.stopTyping();
+
     // Handle errors
     if (!file.includes('.png')) {
       return context.msg.reply('\n' + file).then(res => {
@@ -32,8 +34,6 @@ const app = new Clapp.App({
       .send({ file })
       .then(() => {
         if (perms.manage(context)) context.msg.delete().catch(console.error);
-
-        context.msg.channel.stopTyping();
 
         fs.unlink(file, err => {
           if (err) throw err;
