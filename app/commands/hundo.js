@@ -30,7 +30,7 @@ module.exports = new Clapp.Command({
 
         if (process.env.ENV === 'live') {
           axios
-            .post('api.hundo.online', {
+            .post('http://api.hundo.online', {
               token: process.env.LW,
               words: argv.args.text,
             })
