@@ -63,10 +63,9 @@ const template = `<?xml version="1.0"?>
   <style>
     #text {
       font-size: 28px;
-      font-family: sans-serif;
+      font-family: 'Patrick Hand', sans-serif;
       font-weight: 800;
       fill: #bb1a34;
-      font-style: italic;
     }
   </style>
 
