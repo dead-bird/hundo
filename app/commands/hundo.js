@@ -18,10 +18,13 @@ module.exports = new Clapp.Command({
       cooldown.add(id);
       setTimeout(() => cooldown.delete(id), 5000);
 
-      // console.log(svg(argv.args.text));
+      console.log(svg(argv.args.text));
 
       sharp(Buffer.from(svg(argv.args.text))).toFile(file, err => {
-        if (err) console.error(err);
+        if (err) {
+          context.msg.channel.stopTyping();
+          return console.error(err);
+        }
 
         resolve(file);
       });
