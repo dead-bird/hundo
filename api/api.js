@@ -27,4 +27,4 @@ app.use(bodyParser.urlencoded({ extended: 'false' }));
 
 app.use('/', routes);
 
-app.listen(4000, () => console.log('💯 api'));
+app.listen(3001, () => console.log('💯 api'));
