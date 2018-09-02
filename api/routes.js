@@ -5,7 +5,7 @@ const router = express.Router();
 
 /* List */
 router.get('/', (req, res, next) => {
-  Words.find()
+  Words.find({}, { date: 0, __v: 0 })
     .sort({ date: -1 })
     .exec((err, words) => {
       if (err) return next(err);
