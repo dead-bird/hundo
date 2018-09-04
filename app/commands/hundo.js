@@ -11,6 +11,7 @@ module.exports = new Clapp.Command({
     new Promise((resolve, reject) => {
       const file = `./data/${new Date().toJSON()}.png`;
       const id = context.msg.author.id;
+      const words = argv.args.text;
 
       if (cooldown.has(id)) return resolve('Woah, just take it easy man.');
 
@@ -20,23 +21,13 @@ module.exports = new Clapp.Command({
       cooldown.add(id);
       setTimeout(() => cooldown.delete(id), 2500);
 
-      // console.log(svg(argv.args.text));
-
-      sharp(Buffer.from(svg(argv.args.text))).toFile(file, err => {
+      sharp(Buffer.from(svg(words))).toFile(file, err => {
         if (err) {
           context.msg.channel.stopTyping();
           return console.error(err);
         }
 
-        if (process.env.ENV === 'live') {
-          axios
-            .post('https://api.hundo.online', {
-              token: process.env.LW,
-              words: argv.args.text,
-            })
-            .catch(e => console.error(e));
-        }
-
+        api(words);
         resolve(file);
       });
     }),
@@ -56,6 +47,14 @@ module.exports = new Clapp.Command({
     },
   ],
 });
+
+function api(words) {
+  if (process.env.ENV === 'dev') return;
+
+  axios
+    .post('https://api.hundo.online', { token: process.env.LW, words })
+    .catch(e => console.error(e));
+}
 
 function svg(text) {
   let width = 0;
