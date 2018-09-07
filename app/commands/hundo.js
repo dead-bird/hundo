@@ -61,7 +61,7 @@ function svg(text) {
 
   text.split('').forEach(() => (width += 20));
 
-  if (width < 50) width = 50;
+  if (width < 60) width = 60;
 
   return template
     .replace(/\{\{text\}\}/g, text)
