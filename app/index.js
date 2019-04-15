@@ -43,14 +43,12 @@ const app = new Clapp.App({
   },
 });
 
-// Load every command in the commands folder
 fs.readdirSync('./app/commands/').forEach(file => {
   app.addCommand(require('./commands/' + file));
 });
 
 bot.on('message', msg => {
   if (app.isCliSentence(msg.content)) {
-    // Keep adding properties to the context as you need them
     app.parseInput(msg.content, { msg });
   }
 });
@@ -59,12 +57,9 @@ bot.on('ready', () => {
   console.log('💯');
 
   bot.user.setActivity('💯', { type: 'Playing' });
-
-  setInterval(() => {
-    api.postStats(bot.guilds.size, bot.shards.Id, bot.shards.total);
-  }, 1800000);
 });
 
+api.on('posted', () => console.log('discordbots API: server count posted'));
 api.on('error', e => error.log(`discordbots API error: ${e}`));
 
 bot.login(process.env.TOKEN).catch(console.error);
