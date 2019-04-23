@@ -59,6 +59,10 @@ bot.on('ready', () => {
   bot.user.setActivity('💯', { type: 'Playing' });
 });
 
+bot.on('error', e => console.error(e));
+bot.on('warn', e => console.warn(e));
+bot.on('debug', e => {});
+
 api.on('posted', () => console.log('discordbots API: server count posted'));
 api.on('error', e => error.log(`discordbots API error: ${e}`));
 
